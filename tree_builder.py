@@ -1,3 +1,4 @@
+
 class EmployeeNode:
     '''
     A class to represent a node in the binary tree.
@@ -7,10 +8,11 @@ class EmployeeNode:
         right (EmployeeNode): The right child node, representing the right subordinate.
     '''
 
-       def __init__(self, name):
+    def __init__(self, name):
         self.name = name
         self.left = None
         self.right = None
+
 
 class TeamTree:
     '''
@@ -20,18 +22,19 @@ class TeamTree:
     Methods:
         insert(manager_name, employee_name, side, current_node=None): Inserts a new employee under the specified manager.
         print_tree(node=None, level=0): Prints the tree structure starting from the given node.
-
     '''
-    
-       def __init__(self):
+
+    def __init__(self):
         self.root = None
+
     def insert(self, manager_name, employee_name, side, current_node=None):
         if self.root is None:
             print("Error: Add a team lead first.")
-            return
+            return None
 
         if current_node is None:
             current_node = self.root
+
         if current_node.name == manager_name:
             if side == "left":
                 if current_node.left is None:
@@ -80,7 +83,6 @@ class TeamTree:
 
 
 # Test your code here
-
 test_tree = TeamTree()
 test_tree.root = EmployeeNode("Jordan")
 
@@ -91,7 +93,6 @@ test_tree.insert("Riley", "Dana", "right")
 
 print("\nTest Team Structure:")
 test_tree.print_tree()
-
 
 
 # CLI functionality
@@ -119,28 +120,54 @@ def company_directory():
             employee = input("Enter the new employee's name: ")
             side = input("Should this employee be on the LEFT or RIGHT of the manager? ")
             side = side.lower()
+
             if tree.insert(manager, employee, side) is False:
                 print(f"Error: Manager '{manager}' was not found.")
 
         elif choice == "3":
-            print("\n🌳  Current Team Structure:")
+            print("\n🌳 Current Team Structure:")
             tree.print_tree()
 
         elif choice == "4":
             print("Good Bye!")
             break
+
         else:
             print("❌ Invalid option. Try again.")
+
 
 if __name__ == "__main__":
     company_directory()
 
-**Design Memo – Company Directory Tree**
 
-For this assignment, I used a binary tree to organize employees based on who they report to. Every employee is represented by a node that stores their name and has two possible connections, one on the left and one on the right. The first employee is the root of the tree, and everyone else is added underneath an existing manager.
+"""
+Design Memo - Company Directory Tree
 
-Recursive insertion starts at the top of the tree and checks if the employee it's looking at is the manager we want to add someone under. If it finds the right manager, it checks whether the left or right side is open and adds the new employee there. If it's not the right manager, the program keeps looking through both sides of the tree until it finds them or runs out of places to check.
+For this assignment, I used a binary tree to organize employees based on who
+they report to. Every employee is represented by a node that stores their name
+and has two possible connections, one on the left and one on the right. The
+first employee is the root of the tree, and everyone else is added underneath
+an existing manager.
 
-One thing I had to pay attention to was making sure the program actually checked the whole tree instead of stopping too early or adding someone under the wrong manager. I also had to make sure it wouldn't add an employee to a spot that was already taken. Having the function return a value when it found the manager helped with this because it told the program when it could stop searching.
+Recursive insertion starts at the top of the tree and checks if the employee
+it's looking at is the manager we want to add someone under. If it finds the
+right manager, it checks whether the left or right side is open and adds the
+new employee there. If it's not the right manager, the program keeps looking
+through both sides of the tree until it finds them or runs out of places to
+check.
 
-I think trees make the most sense when you're working with information that has different levels or some kind of chain of command. A company is a good example because employees report to managers, who might report to other managers. Computer folders and websites are other examples. Compared to using a regular list, a tree makes it easier to see how everything connects. The downside is that finding one specific person can still take some time if the program has to search through most of the tree.
+One thing I had to pay attention to was making sure the program actually
+checked the whole tree instead of stopping too early or adding someone under
+the wrong manager. I also had to make sure it wouldn't add an employee to a
+spot that was already taken. Having the function return a value when it found
+the manager helped with this because it told the program when it could stop
+searching.
+
+I think trees make the most sense when you're working with information that
+has different levels or some kind of chain of command. A company is a good
+example because employees report to managers, who might report to other
+managers. Computer folders and websites are other examples. Compared to using
+a regular list, a tree makes it easier to see how everything connects. The
+downside is that finding one specific person can still take some time if the
+program has to search through most of the tree.
+"""
